@@ -29,6 +29,7 @@
        <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"> <strong> {{userDetails.name}} </strong></h3>
+             <span *ngIf="userDetails.bio">{{userDetails.bio}}</span>
         </div>
 
         <div class="panel-body">
