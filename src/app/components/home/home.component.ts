@@ -7,48 +7,124 @@ import {GitHubService} from '../../services/github.service'
 })
 export class HomeComponent  { 
 
-  user:any;
+  userDetails:any;
   repos:any[];
   username:string;
   blog:string;
+  // pressed:boolean;
+  goBtn:boolean;
+  count:number;
 
   constructor(private _githubService:GitHubService){
-    this.user=false;
-    this._githubService.getUser().subscribe(user => 
-    
-    {
-      console.log(user);
-    });
 
-    //  this._githubService.getRepos().subscribe(repos => 
-    
-    // {
-    //   console.log(repos);
-    // });
+   // this.pressed=false;
+  this.goBtn=false;
+  this.count=0;
 
+
+
+}
+
+go(){
+
+  this.goBtn=true;
+  this.searchUser();
+
+}
+
+
+ClearFields() {
+
+//   var value = parseFloat((<HTMLInputElement>document.getElementById("searchField")).value);
+// var unit = (<HTMLInputElement>document.getElementById("searchField")).value; 
+
+(<HTMLInputElement>document.getElementById("searchField")).value="";
+
+}
+
+changePressed(){
+
+  if(this.count==1) {
+  
+    // this.pressed=true;
+    // this.goBtn=true; 
+  }
+
+  else {
+// this.pressed=false;
+    this.goBtn=false; 
 
   }
+
+  if(this.count==0){
+    this.count=1; 
+}
+  else
+    this.count=0;
+
+    // console.log(this.count);
+
+}
+
 
   searchUser(){
 
+  if(this.count==1){
+
+    this.searchUserDynamic();
+  }
+
+  // this._githubService.updateUser(this.username);
+  else {
+
+ if(this.goBtn){
+
+     this._githubService.updateUser(this.username);
+      this._githubService.getUser()
+      .subscribe(res => {
+        this.userDetails=res;
+      });
+
+
+      this._githubService.getRepos()
+      .subscribe(repo => {
+        this.repos=repo;
+      });
+ }
+ this.goBtn=false;
+
+  }
+
+ }
+
+ 
+ searchUserDynamic(){
+
+ 
     this._githubService.updateUser(this.username);
 
-    this._githubService.getUser().subscribe(user => 
-    this.user=user);
-    this._githubService.getRepos().subscribe(repos => 
-   this.repos=repos);
+    this._githubService.getUser()
+    .subscribe(res => {
+      this.userDetails=res;
+    });
+
+
+    this._githubService.getRepos()
+    .subscribe(repo => {
+      this.repos=repo;
+    });
   }
 
-  visitBlog():string {
+visitBlog():string {
     this.blog='http://'
     var regex=/http/;
-    if(this.user.blog.search(regex)==-1)
-      return this.blog.concat(this.user.blog);
+    if(this.userDetails.blog.search(regex)==-1)
+      return this.blog.concat(this.userDetails.blog);
       
-    return this.user.blog;
+    return this.userDetails.blog;
 
   }
-
+  
   createDate(oldDate:string):string {
     var monthArr=['January','February','March','April','May'
     ,'June','July','August','September','October','November', 'December'];
@@ -63,7 +139,5 @@ export class HomeComponent  {
     return newDate;
 
   }
-
-  
 
 }

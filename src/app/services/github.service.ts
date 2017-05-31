@@ -13,8 +13,8 @@ export class GitHubService{
     // repos: any[];
 
     constructor(private _http: Http){
-        console.log("github service ready....")
-        this.username= 'bradtraversy';
+        // console.log("github service ready....")
+        this.username= 'jatinarr';
         // this.user=false;
     }
 

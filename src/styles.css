@@ -5,7 +5,7 @@
   padding: 6px 24px 6px 10px;
   border-radius: 4px;
   transition: background 0.4s;
-  width: 100%;
+  width: 95%;
 }
 .clearable.x  { background-position: right 5px center; } 
 .clearable.onX{ cursor: pointer; }             
